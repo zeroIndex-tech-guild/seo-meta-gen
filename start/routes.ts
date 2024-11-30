@@ -8,8 +8,10 @@
 */
 
 import router from '@adonisjs/core/services/router'
+import { middleware } from './kernel.js'
 
 const AuthController = () => import('#controllers/auth')
+const MetagenController = () => import('#controllers/meta-gen')
 
 router.on('/').renderInertia('home')
 
@@ -22,6 +24,14 @@ router
       })
       .prefix('auth')
       .as('auth')
+
+    router
+      .group(() => {
+        router.post('', [MetagenController, 'generateTag']).as('generateTag')
+      })
+      .prefix('metagen')
+      .as('metagen')
+      .middleware(middleware.auth())
   })
   .prefix('/api/v1')
   .as('meta-gen-api-v1')
