@@ -1,18 +1,18 @@
-import MetaGen from '#services/meta-gen'
+import { MetaQueue } from '#queue/metagen-queue'
 import { createMetaGenValidator } from '#validators/meta-gen'
 import { inject } from '@adonisjs/core'
 import { HttpContext, ResponseStatus } from '@adonisjs/core/http'
 
 @inject()
 export default class metaGenController {
-  constructor(protected metaGen: MetaGen) {}
+  constructor(protected metagenQueue: MetaQueue) {}
 
   async generateTag({ request, response }: HttpContext) {
     const { content } = await request.validateUsing(createMetaGenValidator)
 
-    const { data, error } = await this.metaGen.generateTag({ content })
+    const { data, error } = await this.metagenQueue.addJob({ content })
 
-    if (error) {
+    if (error !== null) {
       return response.status(ResponseStatus.BadRequest).send({
         data: null,
         message: error.message,
@@ -25,7 +25,7 @@ export default class metaGenController {
       data,
       error: null,
       statusCode: ResponseStatus.Ok,
-      message: "Tag's generated successfully",
+      message: "Tag's generation was queued successfully",
     }
   }
 }

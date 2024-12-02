@@ -29,7 +29,8 @@
     "#database/*": "./database/*.js",
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
-    "#config/*": "./config/*.js"
+    "#config/*": "./config/*.js",
+    "#queue/*": "./app/queue/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
@@ -59,6 +60,7 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/inertia": "^1.2.2",
     "@adonisjs/lucid": "^21.3.0",
+    "@adonisjs/redis": "^9.1.0",
     "@adonisjs/session": "^7.5.0",
     "@adonisjs/shield": "^8.1.1",
     "@adonisjs/static": "^1.1.1",
@@ -67,6 +69,7 @@
     "@inertiajs/react": "^1.2.0",
     "@types/stopword": "^2.0.3",
     "@vinejs/vine": "^2.1.0",
+    "bullmq": "^5.30.1",
     "edge.js": "^6.2.0",
     "luxon": "^3.5.0",
     "pg": "^8.13.1",
