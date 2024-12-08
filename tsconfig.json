@@ -3,11 +3,9 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./build",
-    "baseUrl": "./inertia/",
     "paths": {
-      "@/*": ["./*"]
+      "~/*": ["./inertia/*"]
     }
   },
-
-  "exclude": ["node_modules", "build"]
+  "exclude": ["./inertia/**/*", "node_modules", "build"]
 }

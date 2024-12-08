@@ -15,6 +15,18 @@ const MetagenController = () => import('#controllers/meta-gen')
 
 router.on('/').renderInertia('home')
 
+/*
+ * Views Routes
+ */
+
+router.group(() => {
+  router.get('/login', [AuthController, 'renderLoginPage']).as('login')
+  //router.get('/signup', [AuthController, 'signupView']).as('signup')
+})
+
+/*
+ * API Routes
+ */
 router
   .group(() => {
     router

@@ -7,6 +7,14 @@ import { HttpContext, ResponseStatus } from '@adonisjs/core/http'
 export default class LoginController {
   constructor(protected authService: AuthService) {}
 
+  async renderLoginPage({ inertia }: HttpContext) {
+    return inertia.render('auth/login/index')
+  }
+
+  async renderSignupPage({ inertia }: HttpContext) {
+    //return inertia.render('auth/signup')
+  }
+
   async login({ request, response }: HttpContext) {
     const { email, password } = await request.validateUsing(loginValidator)
 
