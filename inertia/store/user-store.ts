@@ -1,5 +1,5 @@
 import { AccessToken, User } from '~/types/auth'
-import { createStore } from 'zustand'
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 type UserState = {
@@ -14,7 +14,7 @@ type UserActions = {
 
 type UserStore = UserState & UserActions
 
-export const userStore = createStore(
+export const useUserStore = create(
   persist<UserStore>(
     (set) => ({
       user: null,
