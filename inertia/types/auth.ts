@@ -6,14 +6,12 @@ export type LoginFormValues = {
 }
 
 export type AccessToken = {
-  accessToken: {
-    type: string
-    name: string | null
-    token: string
-    abilities: string[]
-    lastUsedAt: string | null
-    expiresAt: string
-  }
+  type: string
+  name: string | null
+  token: string
+  abilities: string[]
+  lastUsedAt: string | null
+  expiresAt: string
 }
 
 export type User = {

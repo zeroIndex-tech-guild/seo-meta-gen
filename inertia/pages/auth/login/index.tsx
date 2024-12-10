@@ -5,7 +5,7 @@ import { Label } from '~/components/ui/label'
 import { AlertCircle } from 'lucide-react'
 import { useLogin } from '~/hooks/auth/useLogin'
 import { toast } from 'sonner'
-import { useUserStore } from '~/hooks/store'
+import { useUserStore } from '~/store/user-store'
 
 export default function LoginPage() {
   const [formState, setFormState] = useState({

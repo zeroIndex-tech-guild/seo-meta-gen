@@ -29,7 +29,7 @@ export default class LoginController {
     )
   }
 
-  async login({ request, response }: HttpContext) {
+  async login({ request, response, auth }: HttpContext) {
     const { email, password } = await request.validateUsing(loginValidator)
 
     const { error, data } = await this.authService.login(email, password)
@@ -37,6 +37,8 @@ export default class LoginController {
     if (error) {
       return response.unauthorized(error)
     }
+
+    await auth.use('web').login(data.user)
 
     return {
       message: 'User logged in successfully.',

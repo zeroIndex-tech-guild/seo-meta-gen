@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from 'react'
 import axios, { AxiosInstance } from 'axios'
+import { useUserStore } from '~/store/user-store'
 
 const AxiosContext = createContext<AxiosInstance | null>(null)
 
@@ -8,9 +9,14 @@ export const axiosInstance = axios.create({
 })
 
 export const AxiosProvider = ({ children }: { children: React.ReactNode }) => {
+  const { tokens } = useUserStore()
   // Attach request interceptor
   axiosInstance.interceptors.request.use(
     (config) => {
+      if (!tokens) return config
+      const accessToken = `${tokens?.type} ${tokens?.token}`
+      console.log({ accessToken })
+      config.headers.Authorization = accessToken
       return config
     },
     (error) => {
@@ -52,6 +58,7 @@ export const AxiosProvider = ({ children }: { children: React.ReactNode }) => {
       return response
     },
     (error) => {
+      console.log({ error })
       // Handle errors from server responses
       if (error.response) {
         return Promise.reject(error.response.data)

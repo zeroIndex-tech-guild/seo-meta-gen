@@ -12,6 +12,7 @@ import { middleware } from './kernel.js'
 
 const AuthController = () => import('#controllers/auth')
 const MetagenController = () => import('#controllers/meta-gen')
+const DashboardController = () => import('#controllers/dashboard')
 
 router.on('/').renderInertia('home')
 
@@ -22,6 +23,18 @@ router.on('/').renderInertia('home')
 router.group(() => {
   router.get('/login', [AuthController, 'renderLoginPage']).as('login')
   router.get('/signup', [AuthController, 'renderSignupPage']).as('signup')
+
+  router
+    .group(() => {
+      router.get('', [DashboardController, 'renderDashboardPage']).as('dashboard')
+    })
+    .prefix('/dashboard')
+    .as('dashboard')
+    .use(
+      middleware.auth({
+        guards: ['web'],
+      })
+    )
 })
 
 /*
@@ -43,7 +56,7 @@ router
       })
       .prefix('metagen')
       .as('metagen')
-      .middleware(middleware.auth())
+      .middleware(middleware.auth({ guards: ['api'] }))
   })
   .prefix('/api/v1')
   .as('meta-gen-api-v1')
