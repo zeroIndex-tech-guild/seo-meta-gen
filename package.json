@@ -30,7 +30,8 @@
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
     "#config/*": "./config/*.js",
-    "#queue/*": "./app/queue/*.js"
+    "#queue/*": "./app/queue/*.js",
+    "#sharedTypes/*": "./types/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
@@ -83,6 +84,7 @@
     "clsx": "^2.1.1",
     "edge.js": "^6.2.0",
     "framer-motion": "^11.13.1",
+    "http-status-codes": "^2.3.0",
     "lucide-react": "^0.462.0",
     "luxon": "^3.5.0",
     "pg": "^8.13.1",

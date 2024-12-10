@@ -21,7 +21,7 @@ router.on('/').renderInertia('home')
 
 router.group(() => {
   router.get('/login', [AuthController, 'renderLoginPage']).as('login')
-  //router.get('/signup', [AuthController, 'signupView']).as('signup')
+  router.get('/signup', [AuthController, 'renderSignupPage']).as('signup')
 })
 
 /*

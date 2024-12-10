@@ -8,11 +8,25 @@ export default class LoginController {
   constructor(protected authService: AuthService) {}
 
   async renderLoginPage({ inertia }: HttpContext) {
-    return inertia.render('auth/login/index')
+    return inertia.render(
+      'auth/login/index',
+      {},
+      {
+        title: 'Metagen - Login',
+        description: 'Login to Metagen',
+      }
+    )
   }
 
   async renderSignupPage({ inertia }: HttpContext) {
-    //return inertia.render('auth/signup')
+    return inertia.render(
+      'auth/signup/index',
+      {},
+      {
+        title: 'Metagen - Signup',
+        description: 'Signup to Metagen',
+      }
+    )
   }
 
   async login({ request, response }: HttpContext) {
@@ -25,7 +39,7 @@ export default class LoginController {
     }
 
     return {
-      messag: 'User logged in successfully.',
+      message: 'User logged in successfully.',
       statusCode: ResponseStatus.Ok,
       data,
       error: null,
@@ -38,9 +52,12 @@ export default class LoginController {
     const { error, data } = await this.authService.signup(userFormData)
 
     if (error) {
+      const hasMultipleErrors = error.length > 1
+      const message = !hasMultipleErrors ? error[0].message : 'Error while signing up.'
+
       return response.status(ResponseStatus.BadRequest).send({
         statusCode: ResponseStatus.BadRequest,
-        message: 'Error while signing up',
+        message,
         data: null,
         error,
       })
@@ -48,7 +65,7 @@ export default class LoginController {
 
     return {
       statusCode: ResponseStatus.Ok,
-      messag: 'Signed up successfully.',
+      message: 'Signed up successfully.',
       data,
       error: null,
     }
