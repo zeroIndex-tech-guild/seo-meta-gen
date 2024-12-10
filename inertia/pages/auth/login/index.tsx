@@ -5,15 +5,18 @@ import { Label } from '~/components/ui/label'
 import { AlertCircle } from 'lucide-react'
 import { useLogin } from '~/hooks/auth/useLogin'
 import { toast } from 'sonner'
-//import { toast } from 'sonner'
+import { useUserStore } from '~/hooks/store'
+
 export default function LoginPage() {
   const [formState, setFormState] = useState({
     email: '',
     password: '',
   })
+
   const [error, setError] = useState('')
 
   const { login, isLoggingIn } = useLogin()
+  const { setUser, setTokens } = useUserStore()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
@@ -33,6 +36,7 @@ export default function LoginPage() {
       { email, password },
       {
         onSuccess: (response) => {
+          setTokens(response.data.accessToken)
           toast.success(response.message)
         },
         onError: (error) => {

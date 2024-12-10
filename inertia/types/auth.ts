@@ -5,6 +5,21 @@ export type LoginFormValues = {
   password: string
 }
 
+export type AccessToken = {
+  accessToken: {
+    type: string
+    name: string | null
+    token: string
+    abilities: string[]
+    lastUsedAt: string | null
+    expiresAt: string
+  }
+}
+
+export type User = {
+  id: string
+}
+
 export type SignupFormValues = {
   fullName: string
   email: string
@@ -16,14 +31,8 @@ export type LoginResponse = ServerResponse<{
   message: string
   statusCode: number
   data: {
-    accessToken: {
-      type: string
-      name: string | null
-      token: string
-      abilities: string[]
-      lastUsedAt: string | null
-      expiresAt: string
-    }
+    accessToken: AccessToken
+    user: User
   }
   error: string | null
 }>

@@ -24,7 +24,8 @@ export class AuthService {
     })
 
     return {
-      data: { accessToken },
+      data: { accessToken, user },
+
       error: null,
     }
   }

@@ -31,7 +31,7 @@ export type ErrorResponse = {
   statusCode: number // HTTP status code (e.g., 400 for validation error).
   message: string // General error message.
   data: null // Always null for error responses.
-  errors: ErrorDetails[] // Array of detailed error objects.
+  error: ErrorDetails[] // Array of detailed error objects.
 }
 
 /**
