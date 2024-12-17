@@ -6,6 +6,7 @@ import { AlertCircle } from 'lucide-react'
 import { useLogin } from '~/hooks/auth/useLogin'
 import { toast } from 'sonner'
 import { useUserStore } from '~/store/user-store'
+import { router } from '@inertiajs/react'
 
 export default function LoginPage() {
   const [formState, setFormState] = useState({
@@ -37,7 +38,9 @@ export default function LoginPage() {
       {
         onSuccess: (response) => {
           setTokens(response.data.accessToken)
+          setUser(response.data.user)
           toast.success(response.message)
+          router.get('/dashboard')
         },
         onError: (error) => {
           setError(error.message)

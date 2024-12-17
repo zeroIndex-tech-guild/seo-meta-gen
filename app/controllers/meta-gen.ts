@@ -7,6 +7,10 @@ import { HttpContext, ResponseStatus } from '@adonisjs/core/http'
 export default class metaGenController {
   constructor(protected metagenQueue: MetaQueue) {}
 
+  async renderMetagenPage({ inertia }: HttpContext) {
+    return inertia.render('dashboard/metagen/index')
+  }
+
   async generateTag({ request, response }: HttpContext) {
     const { content } = await request.validateUsing(createMetaGenValidator)
 

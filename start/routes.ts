@@ -26,9 +26,10 @@ router.group(() => {
 
   router
     .group(() => {
-      router.get('', [DashboardController, 'renderDashboardPage']).as('dashboard')
+      router.get('/dashboard', [DashboardController, 'renderDashboardPage']).as('dashboard')
+
+      router.get('/metagen', [MetagenController, 'renderMetagenPage']).as('metagen')
     })
-    .prefix('/dashboard')
     .as('dashboard')
     .use(
       middleware.auth({

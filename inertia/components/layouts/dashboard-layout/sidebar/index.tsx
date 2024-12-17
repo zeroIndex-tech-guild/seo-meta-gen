@@ -24,7 +24,7 @@ export const DashboardSidebar = () => {
           className={cn('flex items-center gap-2 text-md hover:bg-purple-800  p-2 rounded-md')}
         >
           <Bot size={164} />
-          <span>Neploar</span>
+          <span>Metagen</span>
         </Link>
       </SidebarMenuButton>
 

@@ -14,7 +14,7 @@ export const AxiosProvider = ({ children }: { children: React.ReactNode }) => {
   axiosInstance.interceptors.request.use(
     (config) => {
       if (!tokens) return config
-      const accessToken = `${tokens?.type} ${tokens?.token}`
+      const accessToken = `Bearer ${tokens?.token}`
       console.log({ accessToken })
       config.headers.Authorization = accessToken
       return config
