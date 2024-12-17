@@ -3,6 +3,7 @@ import { createInertiaApp } from '@inertiajs/react'
 import { AxiosProvider } from '~/components/providers/axios-provider'
 import { QueryProvider } from '~/components/providers/query-provider'
 import { Toaster } from 'sonner'
+import { SocketProvider } from '~/components/providers/socket-provider'
 
 export default function render(page: any) {
   return createInertiaApp({
@@ -14,10 +15,12 @@ export default function render(page: any) {
     },
     setup: ({ App, props }) => (
       <AxiosProvider>
-        <QueryProvider>
-          <Toaster />
-          <App {...props} />
-        </QueryProvider>
+        <SocketProvider>
+          <QueryProvider>
+            <Toaster />
+            <App {...props} />
+          </QueryProvider>
+        </SocketProvider>
       </AxiosProvider>
     ),
   })

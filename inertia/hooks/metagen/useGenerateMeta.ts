@@ -23,5 +23,6 @@ export const useGenerateMeta = () => {
     mutate,
     isGeneratingMeta: mutate.isPending,
     generateMeta: mutate.mutateAsync,
+    meta: mutate.data,
   }
 }

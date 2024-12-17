@@ -18,6 +18,7 @@ export default class MetaGen {
 
       const data = JSON.parse(response.text())
 
+      console.log(data, 'thisi is data')
       return {
         data: {
           meta: data,

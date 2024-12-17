@@ -1,17 +1,35 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { DashboardLayout } from '~/components/layouts/dashboard-layout'
 import { Button } from '~/components/ui/button'
 import { Label } from '~/components/ui/label'
 import { Textarea } from '~/components/ui/textarea'
 import { useGenerateMeta } from '~/hooks/metagen/useGenerateMeta'
+import { useSocket } from '~/store/context/socket'
+import { generateSeoTags } from '~/lib/utils'
+import { Meta } from '#sharedtypes'
+import { HTMLCode } from './components/html-code'
 
 export default function MetaGen() {
   const [formState, setFormState] = useState({
     content: '',
     error: '',
   })
+  const [metaTags, setMetaTags] = useState<Meta>()
   const { generateMeta, isGeneratingMeta } = useGenerateMeta()
+  const io = useSocket()
+
+  useEffect(() => {
+    io?.on('meta-job-completed', (jobData: any) => {
+      console.log('Job completed:', jobData)
+
+      setMetaTags(jobData.data.metaTags)
+    })
+
+    return () => {
+      io?.off('meta-job-completed')
+    }
+  }, [io])
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,6 +68,8 @@ export default function MetaGen() {
         <Button type="submit" disabled={isGeneratingMeta}>
           Generate
         </Button>
+
+        <div>{metaTags && <HTMLCode code={generateSeoTags(metaTags)} />}</div>
       </form>
     </div>
   )

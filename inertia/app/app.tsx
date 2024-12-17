@@ -8,6 +8,7 @@ import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { AxiosProvider } from '~/components/providers/axios-provider'
 import { QueryProvider } from '~/components/providers/query-provider'
 import { Toaster } from 'sonner'
+import { SocketProvider } from '~/components/providers/socket-provider'
 
 const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
 
@@ -15,7 +16,6 @@ createInertiaApp({
   progress: { color: '#5468FF' },
 
   title: (title) => {
-    console.log({ title, appName })
     return `${title} - ${appName}`
   },
 
@@ -27,10 +27,12 @@ createInertiaApp({
     hydrateRoot(
       el,
       <AxiosProvider>
-        <QueryProvider>
-          <Toaster richColors />
-          <App {...props} />
-        </QueryProvider>
+        <SocketProvider>
+          <QueryProvider>
+            <Toaster richColors />
+            <App {...props} />
+          </QueryProvider>
+        </SocketProvider>
       </AxiosProvider>
     )
   },

@@ -1,8 +1,8 @@
-import emitter from '@adonisjs/core/services/emitter'
 import MetaGen from '#services/meta-gen'
 import { inject } from '@adonisjs/core'
 import redis from '@adonisjs/redis/services/main'
 import { Job, Queue, Worker } from 'bullmq'
+import socket from '#services/socket'
 
 export const META_QUEUE = 'meta-queue'
 
@@ -10,6 +10,7 @@ const connection = redis.connection('main')
 
 type MetaJob = {
   content: string
+  metaTags?: string
 }
 
 @inject()
@@ -29,6 +30,9 @@ export class MetaQueue {
       //@ts-ignore
       { connection }
     )
+
+    // Set up the event listener for job completion in the constructor
+    this.handleJobComplete()
   }
 
   async addJob(props: { content: string }) {
@@ -47,14 +51,21 @@ export class MetaQueue {
   }
 
   async handleJob(props: Job<MetaJob>) {
-    const { data, error } = await this.metaGen.generateTag({ content: props.data.content })
-    console.log('******', data, error)
+    const { data } = await this.metaGen.generateTag({ content: props.data.content })
+    props.data.metaTags = data?.meta
   }
 
+  // Set up the job completion event listener
   async handleJobComplete() {
     this.worker.on('completed', (job: Job<MetaJob>) => {
-      console.log('completed', job.data)
+      socket.io!.emit('meta-job-completed', {
+        data: {
+          content: job.data.content,
+          metaTags: job.data.metaTags,
+        },
+        error: null,
+        message: 'Finished generating meta tags',
+      })
     })
-    //await this.worker.waitUntilReady()
   }
 }
