@@ -2,7 +2,7 @@ import { AuthService } from '#services/auth'
 import { loginValidator, signUpValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
 import { HttpContext, ResponseStatus } from '@adonisjs/core/http'
-
+import { StatusCodes } from 'http-status-codes'
 @inject()
 export default class LoginController {
   constructor(protected authService: AuthService) {}
@@ -35,7 +35,12 @@ export default class LoginController {
     const { error, data } = await this.authService.login(email, password)
 
     if (error) {
-      return response.unauthorized(error)
+      return response.status(StatusCodes.UNAUTHORIZED).send({
+        statusCode: StatusCodes.UNAUTHORIZED,
+        message: 'Invalid credentials.',
+        data: null,
+        error,
+      })
     }
 
     await auth.use('web').login(data.user)

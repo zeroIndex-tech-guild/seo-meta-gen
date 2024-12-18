@@ -1,4 +1,4 @@
-import { ServerResponse } from '#sharedTypes/server-response'
+import { ServerResponse, SuccessResponse } from '#sharedTypes/server-response'
 
 export type LoginFormValues = {
   email: string
@@ -25,14 +25,9 @@ export type SignupFormValues = {
   confirmPassword: string
 }
 
-export type LoginResponse = ServerResponse<{
-  message: string
-  statusCode: number
-  data: {
-    accessToken: AccessToken
-    user: User
-  }
-  error: string | null
+export type LoginResponse = SuccessResponse<{
+  accessToken: AccessToken
+  user: User
 }>
 
 export type SignupResponse = ServerResponse<{

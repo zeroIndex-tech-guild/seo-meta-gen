@@ -43,6 +43,7 @@ export default function LoginPage() {
           router.get('/dashboard')
         },
         onError: (error) => {
+          console.log({ error })
           setError(error.message)
         },
       }

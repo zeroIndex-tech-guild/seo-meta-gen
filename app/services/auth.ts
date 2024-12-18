@@ -5,19 +5,8 @@ import { SignUpValues } from '#validators/auth'
 @inject()
 export class AuthService {
   async login(email: string, password: string) {
+    console.log({ email, password })
     const user = await User.verifyCredentials(email, password)
-
-    if (!user) {
-      return {
-        data: null,
-        error: [
-          {
-            code: 'INVALID_CREDENTIALS',
-            message: 'Invalid credentials',
-          },
-        ],
-      }
-    }
 
     const accessToken = await User.accessTokens.create(user, ['*'], {
       expiresIn: '30 days',
