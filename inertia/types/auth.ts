@@ -1,4 +1,4 @@
-import { ServerResponse } from '#sharedtypes'
+import { ServerResponse } from '#sharedTypes/server-response'
 
 export type LoginFormValues = {
   email: string

@@ -1,4 +1,5 @@
 import WebhookService from '#services/webhook'
+import { addWebhookUrlValidator } from '#validators/webhook'
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 
@@ -26,6 +27,33 @@ export default class WebhookController {
     return {
       statusCode: 200,
       message: 'Secret key generated successfully',
+      data,
+      error: null,
+    }
+  }
+
+  async addWebhookUrl({ auth, request }: HttpContext) {
+    const user = auth.user!
+    const { url } = await request.validateUsing(addWebhookUrlValidator)
+
+    const { data } = await this.webHookService.addWebhookUrl(user.id, url)
+
+    return {
+      statusCode: 200,
+      message: 'Webhook URL added successfully',
+      data,
+      error: null,
+    }
+  }
+
+  async getCurrentWebhookUrl({ auth }: HttpContext) {
+    const user = auth.user!
+
+    const { data } = await this.webHookService.getCurrentWebhookUrl(user.id)
+
+    return {
+      statusCode: 200,
+      message: 'Webhook URL retrieved successfully',
       data,
       error: null,
     }

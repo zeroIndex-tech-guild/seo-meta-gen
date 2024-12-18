@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { Button } from '~/components/ui/button'
-import { Input } from '~/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import {
   Table,
@@ -12,44 +10,19 @@ import {
 } from '~/components/ui/table'
 import { DashboardLayout } from '~/components/layouts/dashboard-layout'
 import { GenerateNewKey } from './components/generate-key'
+import { AddWebHookURL } from './components/add-webhook-url'
 
 export default function WebhookPage() {
-  const [webhookUrl, setWebhookUrl] = useState('')
-
   const [logs] = useState([
     { id: 1, status: 'Success', url: 'https://example.com/webhook', timestamp: '2024-06-17 12:00' },
     { id: 2, status: 'Failed', url: 'https://example.com/webhook', timestamp: '2024-06-17 11:45' },
   ])
 
-  const handleSaveWebhookUrl = () => {
-    // Replace with API call to save webhook URL
-    alert('Webhook URL saved: ' + webhookUrl)
-  }
-
   return (
     <div className="space-y-6 p-6">
-      {/* Webhook Key Section */}
       <GenerateNewKey />
 
-      {/* Webhook URL Configuration */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Configure Webhook URL</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-2">
-            <Input
-              placeholder="https://yourdomain.com/webhook"
-              value={webhookUrl}
-              onChange={(e) => setWebhookUrl(e.target.value)}
-            />
-            <Button onClick={handleSaveWebhookUrl}>Save</Button>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Enter the URL where you want to receive webhook events.
-          </p>
-        </CardContent>
-      </Card>
+      <AddWebHookURL />
 
       {/* Webhook Logs */}
       <Card>

@@ -65,8 +65,12 @@ router
     router
       .group(() => {
         router
-          .post('/generate-secret-key', [WebhookController, 'generateSecretKey'])
-          .as('generateSecretKey')
+          .post('/secrets', [WebhookController, 'generateSecretKey'])
+          .as('webhook.secret.create')
+
+        router.post('/urls', [WebhookController, 'addWebhookUrl']).as('webhook.url.add')
+
+        router.get('/urls', [WebhookController, 'getCurrentWebhookUrl']).as('webhook.url.get')
         //.middleware(middleware.auth({ guards: ['api'] }))
       })
       .prefix('webhook')

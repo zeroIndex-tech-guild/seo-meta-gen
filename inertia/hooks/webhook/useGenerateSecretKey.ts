@@ -6,7 +6,7 @@ import { axiosInstance } from '~/components/providers/axios-provider'
 export const useGenerateSecretKey = () => {
   const mutate = useMutation<GenerateSecretKeyResponse, ErrorResponse, null>({
     mutationKey: ['generateSecretKey'],
-    mutationFn: async (fodder: null) => await axiosInstance.post('/webhook/generate-secret-key'),
+    mutationFn: async (fodder: null) => await axiosInstance.post('/webhook/secrets'),
   })
 
   return {
