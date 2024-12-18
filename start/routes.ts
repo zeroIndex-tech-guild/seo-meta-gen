@@ -13,6 +13,7 @@ import { middleware } from './kernel.js'
 const AuthController = () => import('#controllers/auth')
 const MetagenController = () => import('#controllers/meta-gen')
 const DashboardController = () => import('#controllers/dashboard')
+const WebhookController = () => import('#controllers/webhook')
 
 router.on('/').renderInertia('home')
 
@@ -29,6 +30,8 @@ router.group(() => {
       router.get('/dashboard', [DashboardController, 'renderDashboardPage']).as('dashboard')
 
       router.get('/metagen', [MetagenController, 'renderMetagenPage']).as('metagen')
+
+      router.get('/webhook', [WebhookController, 'renderWebhookPage']).as('webhook')
     })
     .as('dashboard')
     .use(
@@ -57,6 +60,17 @@ router
       })
       .prefix('metagen')
       .as('metagen')
+      .middleware(middleware.auth({ guards: ['api'] }))
+
+    router
+      .group(() => {
+        router
+          .post('/generate-secret-key', [WebhookController, 'generateSecretKey'])
+          .as('generateSecretKey')
+        //.middleware(middleware.auth({ guards: ['api'] }))
+      })
+      .prefix('webhook')
+      .as('webhook')
       .middleware(middleware.auth({ guards: ['api'] }))
   })
   .prefix('/api/v1')

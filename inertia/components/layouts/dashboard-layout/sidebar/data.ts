@@ -1,4 +1,4 @@
-import { CodeXml, Gauge } from 'lucide-react'
+import { CodeXml, Gauge, Webhook } from 'lucide-react'
 
 export const dashboardSidebarItems = [
   {
@@ -13,6 +13,11 @@ export const dashboardSidebarItems = [
         title: 'MetaGen',
         url: '/metagen',
         Icon: CodeXml,
+      },
+      {
+        title: 'Web hook',
+        url: '/webhook',
+        Icon: Webhook,
       },
     ],
   },

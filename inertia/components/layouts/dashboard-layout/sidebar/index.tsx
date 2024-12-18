@@ -47,8 +47,8 @@ export const DashboardSidebar = () => {
                           <Link
                             href={url}
                             className={cn(
-                              'flex items-center gap-2 text-md hover:bg-purple-800  p-2 rounded-md',
-                              isActive && 'bg-purple-800'
+                              'flex items-center gap-2 text-md hover:bg-purple-800 hover:text-white  p-2 rounded-md',
+                              isActive && 'bg-purple-800 text-white'
                             )}
                           >
                             {<Icon size={16} />}

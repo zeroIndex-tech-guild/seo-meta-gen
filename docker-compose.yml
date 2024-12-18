@@ -17,6 +17,17 @@ services:
     ports:
       - 6379:6379
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: blank@pg.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+
 volumes:
   pgdata:
 
