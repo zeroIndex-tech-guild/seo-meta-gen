@@ -71,11 +71,18 @@ router
         router.post('/urls', [WebhookController, 'addWebhookUrl']).as('webhook.url.add')
 
         router.get('/urls', [WebhookController, 'getCurrentWebhookUrl']).as('webhook.url.get')
-        //.middleware(middleware.auth({ guards: ['api'] }))
       })
       .prefix('webhook')
       .as('webhook')
       .middleware(middleware.auth({ guards: ['api'] }))
+
+    router
+      .group(() => {
+        router
+          .post('/metas/generate', [MetagenController, 'generateTagForAPI'])
+          .as('metagen.generate')
+      })
+      .middleware(middleware.webhookApiAuth())
   })
   .prefix('/api/v1')
   .as('meta-gen-api-v1')

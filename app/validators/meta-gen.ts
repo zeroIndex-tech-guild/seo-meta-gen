@@ -8,3 +8,13 @@ export const createMetaGenValidator = vine.compile(
 )
 
 export type CreateMetaGenValues = Infer<typeof createMetaGenValidator>
+
+export const createMetaGenValidatorForAPI = vine.compile(
+  vine.object({
+    content: vine.string(),
+
+    headers: vine.object({
+      'x-secret-key': vine.string(),
+    }),
+  })
+)
