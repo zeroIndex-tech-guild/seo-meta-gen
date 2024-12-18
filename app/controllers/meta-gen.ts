@@ -8,7 +8,7 @@ export default class metaGenController {
   constructor(protected metagenQueue: MetaQueue) {}
 
   async renderMetagenPage({ inertia }: HttpContext) {
-    return inertia.render('dashboard/metagen/index')
+    return inertia.render('metagen/index')
   }
 
   async generateTag({ request, response }: HttpContext) {

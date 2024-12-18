@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { useGenerateMeta } from '~/hooks/metagen/useGenerateMeta'
 import { useSocket } from '~/store/context/socket'
 import { generateSeoTags } from '~/lib/utils'
-import { Meta } from '#sharedtypes'
+import { Meta } from '#sharedTypes/meta'
 import { HTMLCode } from './components/html-code'
 import { Loader2 } from 'lucide-react'
 
@@ -17,13 +17,13 @@ export default function MetaGen() {
     content: '',
     error: '',
   })
+
   const [metaTags, setMetaTags] = useState<Meta>()
   const { generateMeta, isGeneratingMeta } = useGenerateMeta()
   const io = useSocket()
 
   useEffect(() => {
     io?.on('meta-job-completed', (jobData: any) => {
-      console.log('Job completed:', jobData)
       setMetaTags(jobData.data.metaTags)
       toast.success('Meta tags generated successfully!')
     })
@@ -39,7 +39,6 @@ export default function MetaGen() {
     const isEmpty = formState.content === ''
     if (isEmpty) {
       setFormState({ ...formState, error: 'Content is required' })
-      toast.error('Content is required to generate meta tags.')
       return
     }
 
@@ -62,10 +61,8 @@ export default function MetaGen() {
 
   return (
     <div className="p-6 space-y-8">
-      {/* Page Title */}
       <h2 className="text-3xl font-bold text-center">Meta Tag Generator</h2>
 
-      {/* Input Form */}
       <Card>
         <CardHeader>
           <CardTitle>Enter Content</CardTitle>
@@ -76,7 +73,7 @@ export default function MetaGen() {
               <Label htmlFor="content">Content</Label>
               <Textarea
                 id="content"
-                rows={8}
+                rows={25}
                 value={formState.content}
                 onChange={onContentChange}
                 placeholder="Enter the content to generate meta tags..."
@@ -93,15 +90,14 @@ export default function MetaGen() {
       </Card>
 
       {/* Generated Meta Tags */}
+      {isGeneratingMeta && <Loader2 className="w-8 h-8 mx-auto animate-spin" />}
       {metaTags && (
         <Card>
           <CardHeader>
             <CardTitle>Generated Meta Tags</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="border rounded-md p-4 bg-gray-900 text-white overflow-auto max-h-96">
-              <HTMLCode code={generateSeoTags(metaTags)} />
-            </div>
+            <HTMLCode code={generateSeoTags(metaTags)} />
           </CardContent>
         </Card>
       )}

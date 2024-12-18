@@ -1,6 +1,6 @@
+import 'prismjs/themes/prism.css'
 import { Copy } from 'lucide-react'
 import Prism from 'prismjs'
-import 'prismjs/themes/prism.css'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -26,13 +26,14 @@ export const HTMLCode = ({ code }: { code: string }) => {
         style={{ maxWidth: '100%', overflowX: 'auto', wordWrap: 'break-word' }}
         contentEditable
         onInput={updateEditableCode}
+        className="p-4"
       >
         <code
           className="language-html"
           dangerouslySetInnerHTML={{ __html: html }}
           style={{
-            whiteSpace: 'pre-wrap', // Allow code to wrap to the next line
-            wordBreak: 'break-word', // Break words at the end of the line
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
           }}
         />
       </pre>
