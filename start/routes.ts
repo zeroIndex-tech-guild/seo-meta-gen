@@ -68,6 +68,8 @@ router
           .post('/secrets', [WebhookController, 'generateSecretKey'])
           .as('webhook.secret.create')
 
+        router.get('/secrets', [WebhookController, 'getCurrentSecretKey']).as('webhook.secret.get')
+
         router.post('/urls', [WebhookController, 'addWebhookUrl']).as('webhook.url.add')
 
         router.get('/urls', [WebhookController, 'getCurrentWebhookUrl']).as('webhook.url.get')

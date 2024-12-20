@@ -1,21 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useGenerateSecretKey } from '~/hooks/webhook/useGenerateSecretKey'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { ClipboardCopyIcon, RefreshCw } from 'lucide-react'
+import { useGetCurrentSecretKey } from '~/hooks/webhook/useGetCurrentSecretKey'
+import { hideKey } from '~/lib/utils'
 
 export const GenerateNewKey = () => {
   const { generateSecretKey } = useGenerateSecretKey()
+  const { currentSecretKey } = useGetCurrentSecretKey()
+
   const [webhookKey, setWebhookKey] = useState({
     hidden: 'zeroIndex_**********',
     full: '',
   })
 
+  const secretKey = currentSecretKey?.data?.secretKey
+  useEffect(() => {
+    if (!secretKey) return
+
+    const hiddenKey = hideKey(secretKey)
+
+    setWebhookKey({ hidden: hiddenKey, full: secretKey })
+  }, [secretKey])
+
   const generateNewKey = async () => {
     await generateSecretKey(null, {
       onSuccess: (response) => {
-        const secretKey = response.data.secretKey
+        const secretKey = response.data?.secretKey
         const hiddenKey = hideKey(secretKey)
         setWebhookKey((prev) => ({ ...prev, hidden: hiddenKey, full: response.data.secretKey }))
         toast.success(response.message)
@@ -24,12 +37,6 @@ export const GenerateNewKey = () => {
         console.log(error)
       },
     })
-  }
-
-  const hideKey = (key: string) => {
-    const length = key.length
-    const hiddenKey = key.substring(0, 3) + '************' + key.substring(length - 3, length)
-    return hiddenKey
   }
 
   const onClipboardCopy = () => {

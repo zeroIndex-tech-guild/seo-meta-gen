@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { GenerateSecretKeyResponse } from '~/types/webhook'
-import { ErrorResponse } from '#sharedTypes'
+import { ErrorResponse } from '#sharedTypes/server-response'
 import { axiosInstance } from '~/components/providers/axios-provider'
 
 export const useGenerateSecretKey = () => {

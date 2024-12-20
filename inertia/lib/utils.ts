@@ -37,3 +37,9 @@ export function generateSeoTags(meta: Meta) {
 
   return metaTags
 }
+
+export const hideKey = (key = '') => {
+  const length = key.length
+  const hiddenKey = key.substring(0, 3) + '************' + key.substring(length - 3, length)
+  return hiddenKey
+}

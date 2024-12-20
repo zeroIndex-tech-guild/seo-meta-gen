@@ -70,4 +70,16 @@ export default class WebhookService {
       error: null,
     }
   }
+
+  async getCurrentSecretKey(userId: number) {
+    const currentSecret = await WebhookSecret.query()
+      .where('user_id', userId)
+      .where('is_active', true)
+      .first()
+
+    return {
+      data: currentSecret,
+      error: null,
+    }
+  }
 }

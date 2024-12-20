@@ -59,6 +59,19 @@ export default class WebhookController {
     }
   }
 
+  async getCurrentSecretKey({ auth }: HttpContext) {
+    const userId = auth.user!.id
+
+    const { data } = await this.webHookService.getCurrentSecretKey(userId)
+
+    return {
+      statusCode: 200,
+      message: 'Secret key retrieved successfully',
+      data,
+      error: null,
+    }
+  }
+
   async verifyWebhookSignature(userId: number, payload: string, receivedSignature: string) {
     //// Retrieve the stored secret key for the user
     //const webhookConfig = await Webhook.query().where('userId', userId).first()
@@ -66,7 +79,7 @@ export default class WebhookController {
     //if (!webhookConfig) {
     //  throw new Error('Webhook not found for the user')
     //}
-    //
+    //}
     //// Verify the received signature
     //const computedSignature = generateSignature(payload, webhookConfig.secretKey)
     //

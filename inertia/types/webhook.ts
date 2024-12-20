@@ -19,3 +19,7 @@ export type GenerateSecretKeyResponse = ServerResponse<{
 export type AddWebhookUrlResponse = ServerResponse<WebhookUrl>
 
 export type GetCurrentWebhookUrlResponse = ServerResponse<WebhookUrl>
+
+export type GetCurrentSecretKeyResponse = ServerResponse<{
+  secretKey: string
+}>
