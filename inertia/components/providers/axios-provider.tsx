@@ -15,7 +15,6 @@ export const AxiosProvider = ({ children }: { children: React.ReactNode }) => {
     (config) => {
       if (!tokens) return config
       const accessToken = `Bearer ${tokens?.token}`
-      console.log({ accessToken })
       config.headers.Authorization = accessToken
       return config
     },
