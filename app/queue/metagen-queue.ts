@@ -6,10 +6,13 @@ import { connection } from './connection.js'
 import WebhookSecrets from '#models/webhook-secret'
 import WebhookUrl from '#models/webhook-urls'
 import axios from 'axios'
+import MetaGens from '#models/meta-gens'
+import { WebhookLog } from '#services/webhook-log'
+import { getID } from '../utils/index.js'
 
 export const META_QUEUE = 'meta-queue'
 
-type Meta = {
+export type Meta = {
   content: string
   metaTags?: string
   webhook?: {
@@ -26,7 +29,9 @@ export class MetaQueue {
   constructor(
     protected metaGen: MetaGen,
     protected webhookSecret: WebhookSecrets,
-    protected webhookUrls: WebhookUrl
+    protected webhookUrls: WebhookUrl,
+    protected webhookLog: WebhookLog,
+    protected metaGens: MetaGens
   ) {
     //@ts-ignore
     this.metaQueue = new Queue(META_QUEUE, { connection })
@@ -67,6 +72,12 @@ export class MetaQueue {
   async handleJobComplete() {
     this.worker.on('completed', async (job: Job<Meta>) => {
       const { trigger = false, secret = '' } = job.data.webhook || {}
+
+      await MetaGens.create({
+        id: getID(),
+        meta: job.data.metaTags,
+        userId: 1,
+      })
 
       if (trigger) {
         await this.handleWebhookTrigger(secret, job)
@@ -145,6 +156,7 @@ export class MetaQueue {
   }
 
   async triggerWebhook(url: string, job: Job<Meta>) {
+    console.log('trigger webhook')
     try {
       const response = await axios({
         method: 'post',
@@ -164,6 +176,8 @@ export class MetaQueue {
         console.log({ response }, 'web hook failed')
         // web hook job failed
       }
+
+      await this.webhookLog.saveLog(job, 1)
     } catch (e) {
       console.log({ e })
     }

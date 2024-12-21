@@ -6,10 +6,7 @@ import User from './user.js'
 
 export default class MetaGens extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
-
-  @column()
-  declare title: string
+  declare id: string
 
   @column()
   declare meta: string
