@@ -1,6 +1,7 @@
 import User from '#models/user'
 import { inject } from '@adonisjs/core'
 import { SignUpValues } from '#validators/auth'
+import { getID } from '../utils/index.js'
 
 @inject()
 export class AuthService {
@@ -21,7 +22,10 @@ export class AuthService {
 
   async signup(data: SignUpValues) {
     try {
-      const user = await User.create(data)
+      const user = await User.create({
+        ...data,
+        id: getID(),
+      })
       return {
         data: user,
         error: null,

@@ -31,7 +31,8 @@
     "#start/*": "./start/*.js",
     "#config/*": "./config/*.js",
     "#queue/*": "./app/queue/*.js",
-    "#sharedTypes/*": "./types/*.js"
+    "#sharedTypes/*": "./types/*.js",
+    "#utils": "./app/utils/index.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",

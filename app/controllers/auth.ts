@@ -2,6 +2,7 @@ import { AuthService } from '#services/auth'
 import { loginValidator, signUpValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
 import { HttpContext, ResponseStatus } from '@adonisjs/core/http'
+import emitter from '@adonisjs/core/services/emitter'
 import { StatusCodes } from 'http-status-codes'
 @inject()
 export default class LoginController {
@@ -69,6 +70,7 @@ export default class LoginController {
         error,
       })
     }
+    emitter.emit('user:registered', data)
 
     return {
       statusCode: ResponseStatus.Ok,

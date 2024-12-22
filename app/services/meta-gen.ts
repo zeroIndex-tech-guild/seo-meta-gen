@@ -3,6 +3,7 @@ import { removeStopwords } from 'stopword'
 import { PROMPT_TEMPLATE } from '../constants/promt-template.js'
 import AiModels from './ai-models.js'
 import { CreateMetaGenValues } from '#validators/meta-gen'
+import { Meta } from '#sharedTypes/meta'
 
 @inject()
 export default class MetaGen {
@@ -19,9 +20,7 @@ export default class MetaGen {
       const data = JSON.parse(response.text())
 
       return {
-        data: {
-          meta: data,
-        },
+        data: data as Meta,
         error: null,
       }
     } catch (e) {

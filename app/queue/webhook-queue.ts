@@ -53,7 +53,6 @@ export class WebhookQueue {
       data: { webHookUrl, ...rest },
     } = props
 
-    console.log({ webHookUrl, rest })
     await axios.post(webHookUrl, rest)
   }
 
