@@ -1,11 +1,12 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { router } from '@inertiajs/react'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { DataTable } from '~/components/ui/data-table'
+import { UserApp } from '~/types/user-app'
 
-const columns: ColumnDef<{ id: string; name: string }>[] = [
+const columns: ColumnDef<UserApp>[] = [
   {
-    id: 'id',
-    header: 'ID',
-    accessorKey: 'id',
+    header: 'S.N.',
+    cell: ({ row }) => row.index + 1,
   },
   {
     id: 'name',
@@ -14,6 +15,16 @@ const columns: ColumnDef<{ id: string; name: string }>[] = [
   },
 ]
 
-export const AppsTable = () => {
-  return <DataTable columns={columns} data={[{ id: '1', name: 'My App' }]} />
+type Props = {
+  data: UserApp[]
+}
+
+export const AppsTable = (props: Props) => {
+  const { data } = props
+
+  const onRowClick = (data: Row<UserApp>) => {
+    router.get(`/webhook/apps/${data.original.id}`)
+  }
+
+  return <DataTable columns={columns} data={data} onRowClick={onRowClick} />
 }

@@ -43,6 +43,21 @@ export default class UserAppService {
     }
   }
 
+  async getUserApps({ userId }: { userId: string }) {
+    try {
+      const userApps = await UserApp.query().where({ userId })
+      return {
+        data: userApps,
+        error: null,
+      }
+    } catch (e) {
+      return {
+        data: null,
+        error: e as Error,
+      }
+    }
+  }
+
   async generateUserAppSecretKey({ appId }: { userId: string; appId: string }) {
     try {
       const secretKey = this.hmacService.generateSecretKey()

@@ -2,9 +2,15 @@ import { DashboardLayout } from '~/components/layouts/dashboard-layout'
 import { AppsTable } from './components/apps-table'
 import { CreateNewAppModal } from './components/create-new-app-modal'
 import { useState } from 'react'
+import UserApp from '#models/user_app'
 
-export default function WebhookPage() {
+type Props = {
+  apps: UserApp[]
+}
+
+export default function WebhookPage(props: Props) {
   const [showCreateNewAppModal, setShowCreateNewAppModal] = useState(false)
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-xl font-bold">Apps</h1>
@@ -13,7 +19,8 @@ export default function WebhookPage() {
         showModal={showCreateNewAppModal}
         setShowModal={setShowCreateNewAppModal}
       />
-      <AppsTable />
+
+      <AppsTable data={props.apps} />
     </div>
   )
 }

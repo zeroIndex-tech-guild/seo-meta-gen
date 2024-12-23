@@ -7,10 +7,6 @@ import { HttpContext } from '@adonisjs/core/http'
 export default class WebhookController {
   constructor(protected webHookService: WebhookService) {}
 
-  renderWebhookPage({ inertia }: HttpContext) {
-    return inertia.render('webhook/index')
-  }
-
   async index() {
     return {
       data: {

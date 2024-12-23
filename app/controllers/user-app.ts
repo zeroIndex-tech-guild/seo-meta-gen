@@ -8,6 +8,16 @@ import { StatusCodes } from 'http-status-codes'
 export default class UserAppController {
   constructor(protected userAppService: UserAppService) {}
 
+  async renderAppsListPage({ inertia, auth }: HttpContext) {
+    const user = auth.user!
+
+    const { data, error } = await this.userAppService.getUserApps({ userId: user.id })
+
+    return inertia.render('webhook/index', {
+      apps: data,
+    })
+  }
+
   async renderCreateAppPage({ inertia, request, auth }: HttpContext) {
     const user = auth.user!
 
@@ -20,6 +30,12 @@ export default class UserAppController {
       appId,
       app: data,
     })
+  }
+
+  async getUserApps({ auth }: HttpContext) {
+    const user = auth.user!
+
+    const { data, error } = await this.userAppService.getUserApps({ userId: user.id })
   }
 
   async createUserApp({ request, response, auth }: HttpContext) {
@@ -62,4 +78,6 @@ export default class UserAppController {
       message: 'Secret key generated successfully',
     }
   }
+
+  async addWebhookUrl({}: HttpContext) {}
 }

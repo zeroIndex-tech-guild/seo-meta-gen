@@ -13,7 +13,6 @@ import { middleware } from './kernel.js'
 const AuthController = () => import('#controllers/auth')
 const MetagenController = () => import('#controllers/meta-gen')
 const DashboardController = () => import('#controllers/dashboard')
-const WebhookController = () => import('#controllers/webhook')
 const UserAppController = () => import('#controllers/user-app')
 
 router.on('/').renderInertia('home')
@@ -32,7 +31,7 @@ router.group(() => {
 
       router.get('/metagen', [MetagenController, 'renderMetagenPage']).as('metagen')
 
-      router.get('/webhook', [WebhookController, 'renderWebhookPage']).as('webhook')
+      router.get('/webhooks/apps', [UserAppController, 'renderAppsListPage']).as('webhook')
 
       router
         .get('/webhook/apps/:appId', [UserAppController, 'renderCreateAppPage'])
