@@ -14,6 +14,7 @@ const AuthController = () => import('#controllers/auth')
 const MetagenController = () => import('#controllers/meta-gen')
 const DashboardController = () => import('#controllers/dashboard')
 const WebhookController = () => import('#controllers/webhook')
+const UserAppController = () => import('#controllers/user-app')
 
 router.on('/').renderInertia('home')
 
@@ -32,6 +33,10 @@ router.group(() => {
       router.get('/metagen', [MetagenController, 'renderMetagenPage']).as('metagen')
 
       router.get('/webhook', [WebhookController, 'renderWebhookPage']).as('webhook')
+
+      router
+        .get('/webhook/apps/:appId', [UserAppController, 'renderCreateAppPage'])
+        .as('webhook.app')
     })
     .as('dashboard')
     .use(
@@ -65,17 +70,23 @@ router
     router
       .group(() => {
         router
-          .post('/secrets', [WebhookController, 'generateSecretKey'])
-          .as('webhook.secret.create')
-
-        router.get('/secrets', [WebhookController, 'getCurrentSecretKey']).as('webhook.secret.get')
-
-        router.post('/urls', [WebhookController, 'addWebhookUrl']).as('webhook.url.add')
-
-        router.get('/urls', [WebhookController, 'getCurrentWebhookUrl']).as('webhook.url.get')
+          .group(() => {
+            router.post('', [UserAppController, 'createUserApp']).as('webhook.secret.create')
+          })
+          .prefix('user-apps')
+          .as('user-apps')
+        //router
+        //  .post('/secrets', [WebhookController, 'generateSecretKey'])
+        //  .as('webhook.secret.create')
+        //
+        //router.get('/secrets', [WebhookController, 'getCurrentSecretKey']).as('webhook.secret.get')
+        //
+        //router.post('/urls', [WebhookController, 'addWebhookUrl']).as('webhook.url.add')
+        //
+        //router.get('/urls', [WebhookController, 'getCurrentWebhookUrl']).as('webhook.url.get')
       })
-      .prefix('webhook')
-      .as('webhook')
+      .prefix('webhooks')
+      .as('webhooks')
       .middleware(middleware.auth({ guards: ['api'] }))
 
     router

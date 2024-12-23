@@ -14,25 +14,25 @@ export default class WebhookService {
       }
     }
 
-    // Inactivate the old secret key if it exists
-    //const existingSecret = await WebhookSecret.query().where('user_id', user.id).first()
-    //if (existingSecret) {
-    //  existingSecret.isActive = false
-    //  await existingSecret.save()
-    //}
+    //Inactivate the old secret key if it exists
+    const existingSecret = await WebhookSecret.query().where('user_id', user.id).first()
+    if (existingSecret) {
+      existingSecret.isActive = false
+      await existingSecret.save()
+    }
 
     //await WebhookSecret.create({
     //  userId: user.id,
     //  secretKey: secretKey,
     //  isActive: true,
     //})
-    //
-    //return {
-    //  data: {
-    //    secretKey: secretKey,
-    //  },
-    //  error: null,
-    //}
+
+    return {
+      data: {
+        secretKey: secretKey,
+      },
+      error: null,
+    }
   }
 
   async addWebhookUrl(userId: number, url: string) {

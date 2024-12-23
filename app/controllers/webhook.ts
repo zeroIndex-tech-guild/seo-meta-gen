@@ -20,18 +20,18 @@ export default class WebhookController {
     }
   }
 
-  //async generateSecretKey({ auth }: HttpContext) {
-  //  const user = auth.user
-  //
-  //  const { data } = await this.webHookService.generateSecretKey(user)
-  //
-  //  return {
-  //    statusCode: 200,
-  //    message: 'Secret key generated successfully',
-  //    data,
-  //    error: null,
-  //  }
-  //}
+  async generateSecretKey({ auth }: HttpContext) {
+    const user = auth.user
+
+    const { data } = await this.webHookService.generateSecretKey(user)
+
+    return {
+      statusCode: 200,
+      message: 'Secret key generated successfully',
+      data,
+      error: null,
+    }
+  }
 
   //async addWebhookUrl({ auth, request }: HttpContext) {
   //  const user = auth.user!
