@@ -72,18 +72,16 @@ router
         router
           .group(() => {
             router.post('', [UserAppController, 'createUserApp']).as('webhook.secret.create')
+
+            router
+              .group(() => {
+                router.post('', [UserAppController, 'generateAppSecretKey']).as('generate')
+              })
+              .prefix(':appId/secrets')
+              .as('secrets')
           })
           .prefix('user-apps')
           .as('user-apps')
-        //router
-        //  .post('/secrets', [WebhookController, 'generateSecretKey'])
-        //  .as('webhook.secret.create')
-        //
-        //router.get('/secrets', [WebhookController, 'getCurrentSecretKey']).as('webhook.secret.get')
-        //
-        //router.post('/urls', [WebhookController, 'addWebhookUrl']).as('webhook.url.add')
-        //
-        //router.get('/urls', [WebhookController, 'getCurrentWebhookUrl']).as('webhook.url.get')
       })
       .prefix('webhooks')
       .as('webhooks')

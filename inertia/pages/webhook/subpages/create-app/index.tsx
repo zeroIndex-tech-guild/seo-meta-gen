@@ -6,28 +6,26 @@ import { TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/compon
 import { useState } from 'react'
 import { DashboardLayout } from '~/components/layouts/dashboard-layout'
 import { UserAppName } from './components/user-app-name'
+import { UserApp } from '~/types/user-app'
 
-/*
- * When a new app is being created or existing app is being edited / viewed.
- * We will use this page :)
- *
- * URL: /webhook/apps/appId ['new' | 'id']
- * if appId === 'new'
- *  we will create a new app
- * if appID === 'id'
- *  we will view  / edit the app
- */
-export default function CreateAppPage() {
+type Props = {
+  appId: string
+  app: UserApp
+}
+export default function CreateAppPage(props: Props) {
+  const { appId, app } = props
   const [logs] = useState([
     { id: 1, status: 'Success', url: 'https://example.com/webhook', timestamp: '2024-06-17 12:00' },
     { id: 2, status: 'Failed', url: 'https://example.com/webhook', timestamp: '2024-06-17 11:45' },
   ])
 
+  console.log({ props })
+
   return (
     <div className="space-y-6 p-6">
-      <UserAppName />
+      <UserAppName appName={app.name} />
 
-      <GenerateNewKey />
+      <GenerateNewKey appId={appId} secretKey={app.secret} />
 
       <AddWebHookURL />
 

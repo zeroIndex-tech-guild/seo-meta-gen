@@ -1,4 +1,4 @@
-import { ServerResponse } from '#sharedTypes/server-response'
+import { ServerResponse, SuccessResponse } from '#sharedTypes/server-response'
 
 type WebhookUrl = {
   id: string
@@ -12,7 +12,7 @@ type WebhookUrl = {
   updatedAt: string
 }
 
-export type GenerateSecretKeyResponse = ServerResponse<{
+export type GenerateSecretKeyResponse = SuccessResponse<{
   secretKey: string
 }>
 

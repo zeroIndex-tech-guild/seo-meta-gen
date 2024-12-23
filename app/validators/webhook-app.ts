@@ -8,3 +8,11 @@ export const createNewAppValidator = vine.compile(
 )
 
 export type CreateNewAppValues = Infer<typeof createNewAppValidator>
+
+export const generateSecretKeyValidator = vine.compile(
+  vine.object({
+    params: vine.object({
+      appId: vine.string(),
+    }),
+  })
+)

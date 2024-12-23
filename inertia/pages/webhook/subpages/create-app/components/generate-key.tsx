@@ -1,42 +1,41 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
-import { useGenerateSecretKey } from '~/hooks/webhook/useGenerateSecretKey'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { ClipboardCopyIcon, RefreshCw } from 'lucide-react'
-import { useGetCurrentSecretKey } from '~/hooks/webhook/useGetCurrentSecretKey'
 import { hideKey } from '~/lib/utils'
+import { useGenerateSecretKey } from '~/hooks/userApp/useGenerateSecretKey'
 
-export const GenerateNewKey = () => {
+type Props = {
+  appId: string
+  secretKey: string | null
+}
+
+export const GenerateNewKey = (props: Props) => {
+  const { appId, secretKey } = props
+
   const { generateSecretKey } = useGenerateSecretKey()
-  const { currentSecretKey } = useGetCurrentSecretKey()
 
   const [webhookKey, setWebhookKey] = useState({
-    hidden: 'zeroIndex_**********',
-    full: '',
+    hidden: secretKey ? hideKey(secretKey) : '***generate_secret_key***',
+    full: secretKey || '',
   })
 
-  const secretKey = currentSecretKey?.data?.secretKey
-  useEffect(() => {
-    if (!secretKey) return
-
-    const hiddenKey = hideKey(secretKey)
-
-    setWebhookKey({ hidden: hiddenKey, full: secretKey })
-  }, [secretKey])
-
   const generateNewKey = async () => {
-    await generateSecretKey(null, {
-      onSuccess: (response) => {
-        const secretKey = response.data?.secretKey
-        const hiddenKey = hideKey(secretKey)
-        setWebhookKey((prev) => ({ ...prev, hidden: hiddenKey, full: response.data.secretKey }))
-        toast.success(response.message)
-      },
-      onError: (error) => {
-        console.log(error)
-      },
-    })
+    await generateSecretKey(
+      { appId },
+      {
+        onSuccess: (response) => {
+          const secretKey = response.data.secretKey
+          const hiddenKey = hideKey(secretKey)
+          setWebhookKey((prev) => ({ ...prev, hidden: hiddenKey, full: response.data.secretKey }))
+          toast.success(response.message)
+        },
+        onError: (error) => {
+          console.log(error)
+        },
+      }
+    )
   }
 
   const onClipboardCopy = () => {

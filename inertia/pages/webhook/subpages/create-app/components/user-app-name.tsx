@@ -5,7 +5,8 @@ type Props = {
   appName: string
 }
 
-export const UserAppName = () => {
+export const UserAppName = (props: Props) => {
+  const { appName } = props
   return (
     <Card>
       <CardHeader>
@@ -13,7 +14,7 @@ export const UserAppName = () => {
       </CardHeader>
 
       <CardContent>
-        <Input value={'heheCat'} readOnly disabled={true} />
+        <Input value={appName} readOnly disabled={true} />
       </CardContent>
     </Card>
   )

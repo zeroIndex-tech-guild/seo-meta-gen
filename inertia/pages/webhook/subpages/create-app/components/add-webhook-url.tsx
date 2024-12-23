@@ -3,9 +3,9 @@ import { toast } from 'sonner'
 import { Button } from '~/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Input } from '~/components/ui/input'
-import { useAddWebhookUrl } from '~/hooks/webhook/useAddWebhookUrl'
 import { ShowCurrentWebhookUrl } from './show-current-webhook-url'
 import { queryClient } from '~/components/providers/query-provider'
+import { useAddWebhookUrl } from '~/hooks/userApp/useAddWebhookUrl'
 
 export const AddWebHookURL = () => {
   const [webhookUrl, setWebhookUrl] = useState('')

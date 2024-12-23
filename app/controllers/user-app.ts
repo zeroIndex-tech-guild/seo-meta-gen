@@ -1,5 +1,5 @@
 import UserAppService from '#services/user-app'
-import { createNewAppValidator } from '#validators/webhook-app'
+import { createNewAppValidator, generateSecretKeyValidator } from '#validators/webhook-app'
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 import { StatusCodes } from 'http-status-codes'
@@ -8,8 +8,18 @@ import { StatusCodes } from 'http-status-codes'
 export default class UserAppController {
   constructor(protected userAppService: UserAppService) {}
 
-  async renderCreateAppPage({ inertia }: HttpContext) {
-    return inertia.render('webhook/subpages/create-app/index')
+  async renderCreateAppPage({ inertia, request, auth }: HttpContext) {
+    const user = auth.user!
+
+    const {
+      params: { appId },
+    } = await request.validateUsing(generateSecretKeyValidator)
+    const { data } = await this.userAppService.getUserApp({ userId: user.id, appId })
+
+    return inertia.render('webhook/subpages/create-app/index', {
+      appId,
+      app: data,
+    })
   }
 
   async createUserApp({ request, response, auth }: HttpContext) {
@@ -27,6 +37,29 @@ export default class UserAppController {
       error: null,
       status: StatusCodes.OK,
       message: 'App created successfully',
+    }
+  }
+
+  async generateAppSecretKey({ request, auth, response }: HttpContext) {
+    const {
+      params: { appId },
+    } = await request.validateUsing(generateSecretKeyValidator)
+    const user = auth.user!
+
+    const { data, error } = await this.userAppService.generateUserAppSecretKey({
+      userId: user.id,
+      appId,
+    })
+
+    if (error) {
+      return response.badRequest(error)
+    }
+
+    return {
+      data,
+      error: null,
+      status: StatusCodes.OK,
+      message: 'Secret key generated successfully',
     }
   }
 }
