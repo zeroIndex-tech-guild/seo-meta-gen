@@ -1,6 +1,4 @@
 import User from '#models/user'
-import WebhookSecret from '#models/webhook-secret'
-import WebhookUrl from '#models/webhook-urls'
 import crypto from 'node:crypto'
 
 export default class WebhookService {
@@ -17,27 +15,28 @@ export default class WebhookService {
     }
 
     // Inactivate the old secret key if it exists
-    const existingSecret = await WebhookSecret.query().where('user_id', user.id).first()
-    if (existingSecret) {
-      existingSecret.isActive = false
-      await existingSecret.save()
-    }
+    //const existingSecret = await WebhookSecret.query().where('user_id', user.id).first()
+    //if (existingSecret) {
+    //  existingSecret.isActive = false
+    //  await existingSecret.save()
+    //}
 
-    await WebhookSecret.create({
-      userId: user.id,
-      secretKey: secretKey,
-      isActive: true,
-    })
-
-    return {
-      data: {
-        secretKey: secretKey,
-      },
-      error: null,
-    }
+    //await WebhookSecret.create({
+    //  userId: user.id,
+    //  secretKey: secretKey,
+    //  isActive: true,
+    //})
+    //
+    //return {
+    //  data: {
+    //    secretKey: secretKey,
+    //  },
+    //  error: null,
+    //}
   }
 
   async addWebhookUrl(userId: number, url: string) {
+    return
     const existingUrl = await WebhookUrl.query()
       .where('user_id', userId)
       .where('is_active', true)
@@ -60,6 +59,7 @@ export default class WebhookService {
   }
 
   async getCurrentWebhookUrl(userId: number) {
+    return
     const currentWebhook = await WebhookUrl.query()
       .where('user_id', userId)
       .where('is_active', true)
@@ -72,6 +72,7 @@ export default class WebhookService {
   }
 
   async getCurrentSecretKey(userId: number) {
+    return
     const currentSecret = await WebhookSecret.query()
       .where('user_id', userId)
       .where('is_active', true)

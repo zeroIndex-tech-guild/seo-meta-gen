@@ -6,6 +6,7 @@ import { HttpContext } from '@adonisjs/core/http'
 @inject()
 export default class WebhookController {
   constructor(protected webHookService: WebhookService) {}
+
   renderWebhookPage({ inertia }: HttpContext) {
     return inertia.render('webhook/index')
   }
@@ -19,58 +20,58 @@ export default class WebhookController {
     }
   }
 
-  async generateSecretKey({ auth }: HttpContext) {
-    const user = auth.user
+  //async generateSecretKey({ auth }: HttpContext) {
+  //  const user = auth.user
+  //
+  //  const { data } = await this.webHookService.generateSecretKey(user)
+  //
+  //  return {
+  //    statusCode: 200,
+  //    message: 'Secret key generated successfully',
+  //    data,
+  //    error: null,
+  //  }
+  //}
 
-    const { data } = await this.webHookService.generateSecretKey(user)
+  //async addWebhookUrl({ auth, request }: HttpContext) {
+  //  const user = auth.user!
+  //  const { url } = await request.validateUsing(addWebhookUrlValidator)
+  //
+  //  const { data } = await this.webHookService.addWebhookUrl(user.id, url)
+  //
+  //  return {
+  //    statusCode: 200,
+  //    message: 'Webhook URL added successfully',
+  //    data,
+  //    error: null,
+  //  }
+  //}
 
-    return {
-      statusCode: 200,
-      message: 'Secret key generated successfully',
-      data,
-      error: null,
-    }
-  }
+  //async getCurrentWebhookUrl({ auth }: HttpContext) {
+  //  const user = auth.user!
+  //
+  //  const { data } = await this.webHookService.getCurrentWebhookUrl(user.id)
+  //
+  //  return {
+  //    statusCode: 200,
+  //    message: 'Webhook URL retrieved successfully',
+  //    data,
+  //    error: null,
+  //  }
+  //}
 
-  async addWebhookUrl({ auth, request }: HttpContext) {
-    const user = auth.user!
-    const { url } = await request.validateUsing(addWebhookUrlValidator)
-
-    const { data } = await this.webHookService.addWebhookUrl(user.id, url)
-
-    return {
-      statusCode: 200,
-      message: 'Webhook URL added successfully',
-      data,
-      error: null,
-    }
-  }
-
-  async getCurrentWebhookUrl({ auth }: HttpContext) {
-    const user = auth.user!
-
-    const { data } = await this.webHookService.getCurrentWebhookUrl(user.id)
-
-    return {
-      statusCode: 200,
-      message: 'Webhook URL retrieved successfully',
-      data,
-      error: null,
-    }
-  }
-
-  async getCurrentSecretKey({ auth }: HttpContext) {
-    const userId = auth.user!.id
-
-    const { data } = await this.webHookService.getCurrentSecretKey(userId)
-
-    return {
-      statusCode: 200,
-      message: 'Secret key retrieved successfully',
-      data,
-      error: null,
-    }
-  }
+  //async getCurrentSecretKey({ auth }: HttpContext) {
+  //  const userId = auth.user!.id
+  //
+  //  const { data } = await this.webHookService.getCurrentSecretKey(userId)
+  //
+  //  return {
+  //    statusCode: 200,
+  //    message: 'Secret key retrieved successfully',
+  //    data,
+  //    error: null,
+  //  }
+  //}
 
   async verifyWebhookSignature(userId: number, payload: string, receivedSignature: string) {
     //// Retrieve the stored secret key for the user

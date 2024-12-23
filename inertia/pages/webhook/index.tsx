@@ -11,6 +11,7 @@ import {
 import { DashboardLayout } from '~/components/layouts/dashboard-layout'
 import { GenerateNewKey } from './components/generate-key'
 import { AddWebHookURL } from './components/add-webhook-url'
+import { Button } from '~/components/ui/button'
 
 export default function WebhookPage() {
   const [logs] = useState([
@@ -18,6 +19,56 @@ export default function WebhookPage() {
     { id: 2, status: 'Failed', url: 'https://example.com/webhook', timestamp: '2024-06-17 11:45' },
   ])
 
+  const [apps, setApps] = useState([
+    { id: 1, name: 'My App', description: 'SEO Generator', webhookUrl: '' },
+  ])
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-xl font-bold">Apps</h1>
+      <Button
+        onClick={() => {
+          /* Navigate to Create App Page */
+        }}
+      >
+        Create App
+      </Button>
+      <Table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {apps.map((app) => (
+            <tr key={app.id}>
+              <td>{app.name}</td>
+              <td>{app.description}</td>
+              <td>
+                <Button
+                  onClick={() => {
+                    /* Navigate to Edit App Page */
+                  }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    /* Delete App */
+                  }}
+                >
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  )
   return (
     <div className="space-y-6 p-6">
       <GenerateNewKey />
