@@ -3,11 +3,11 @@ import { axiosInstance } from '~/components/providers/axios-provider'
 import { AddWebhookUrlResponse } from '~/types/webhook'
 
 export const useAddWebhookUrl = () => {
-  const mutate = useMutation<AddWebhookUrlResponse, Error, string>({
+  const mutate = useMutation<AddWebhookUrlResponse, Error, { url: string; appId: string }>({
     mutationKey: ['addWebhookUrl'],
-    mutationFn: async (url: string) => {
+    mutationFn: async ({ appId, url }) => {
       return axiosInstance({
-        url: '/webhook/urls',
+        url: '/webhooks/user-apps/' + appId + '/webhook-urls',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -11,7 +11,9 @@ export default class LoginController {
   async renderLoginPage({ inertia }: HttpContext) {
     return inertia.render(
       'auth/login/index',
-      {},
+      {
+        data,
+      },
       {
         title: 'Metagen - Login',
         description: 'Login to Metagen',

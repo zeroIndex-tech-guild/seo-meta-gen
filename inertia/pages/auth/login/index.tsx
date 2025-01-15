@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 import { useUserStore } from '~/store/user-store'
 import { router } from '@inertiajs/react'
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   const [formState, setFormState] = useState({
     email: '',
     password: '',

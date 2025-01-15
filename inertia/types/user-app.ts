@@ -1,4 +1,5 @@
 import { SuccessResponse } from '#sharedTypes/server-response'
+import { WebhookUrl } from './webhook'
 
 export type UserApp = {
   id: string
@@ -7,6 +8,7 @@ export type UserApp = {
   userId: string
   createdAt: string
   updatedAt: string
+  webhookUrls: WebhookUrl[]
 }
 
 export type CreateAppResponse = SuccessResponse<UserApp>

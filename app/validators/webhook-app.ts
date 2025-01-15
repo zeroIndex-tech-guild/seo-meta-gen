@@ -16,3 +16,13 @@ export const generateSecretKeyValidator = vine.compile(
     }),
   })
 )
+
+export const addWebhookUrlValidator = vine.compile(
+  vine.object({
+    url: vine.string(),
+
+    params: vine.object({
+      appId: vine.string(),
+    }),
+  })
+)

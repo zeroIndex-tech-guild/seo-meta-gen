@@ -1,5 +1,9 @@
 import UserAppService from '#services/user-app'
-import { createNewAppValidator, generateSecretKeyValidator } from '#validators/webhook-app'
+import {
+  addWebhookUrlValidator,
+  createNewAppValidator,
+  generateSecretKeyValidator,
+} from '#validators/webhook-app'
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 import { StatusCodes } from 'http-status-codes'
@@ -32,10 +36,21 @@ export default class UserAppController {
     })
   }
 
-  async getUserApps({ auth }: HttpContext) {
+  async getUserApps({ auth, response }: HttpContext) {
     const user = auth.user!
 
     const { data, error } = await this.userAppService.getUserApps({ userId: user.id })
+
+    if (error !== null) {
+      return response.badRequest(error)
+    }
+
+    return {
+      data,
+      error: null,
+      status: StatusCodes.OK,
+      message: 'Apps retrieved successfully',
+    }
   }
 
   async createUserApp({ request, response, auth }: HttpContext) {
@@ -79,5 +94,24 @@ export default class UserAppController {
     }
   }
 
-  async addWebhookUrl({}: HttpContext) {}
+  async addWebhookUrl({ request, response }: HttpContext) {
+    const {
+      url,
+      params: { appId },
+    } = await request.validateUsing(addWebhookUrlValidator)
+
+    const { data, error } = await this.userAppService.addWebhookUrl({ url, appId })
+
+    console.log({ data, error })
+    if (error !== null) {
+      return response.badRequest(error)
+    }
+
+    return {
+      data,
+      error: null,
+      status: StatusCodes.OK,
+      message: 'Webhook URL added successfully',
+    }
+  }
 }

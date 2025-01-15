@@ -2,6 +2,7 @@ import UserApp from '#models/user_app'
 import { getID } from '#utils'
 import { inject } from '@adonisjs/core'
 import HmacService from './hmac.js'
+import WebhookUrl from '#models/webhook_url'
 
 @inject()
 export default class UserAppService {
@@ -29,13 +30,17 @@ export default class UserAppService {
 
   async getUserApp({ userId, appId }: { userId: string; appId: string }) {
     try {
-      const userApp = await UserApp.query().where({ userId, id: appId }).first()
+      console.log('getting userapp')
+      const userApp = await UserApp.query().where('id', appId).preload('webhookUrls').firstOrFail()
+
+      console.log({ userApp })
 
       return {
         data: userApp,
         error: null,
       }
     } catch (e) {
+      console.log({ e })
       return {
         data: null,
         error: e as Error,
@@ -70,6 +75,29 @@ export default class UserAppService {
         data: {
           secretKey,
           userApp,
+        },
+        error: null,
+      }
+    } catch (e) {
+      return {
+        data: null,
+        error: e as Error,
+      }
+    }
+  }
+
+  async addWebhookUrl({ appId, url }: { appId: string; url: string }) {
+    try {
+      const webhookUrl = await WebhookUrl.create({
+        id: getID(),
+        userAppId: appId,
+        url,
+        environment: 'prod',
+      })
+
+      return {
+        data: {
+          webhookUrl,
         },
         error: null,
       }

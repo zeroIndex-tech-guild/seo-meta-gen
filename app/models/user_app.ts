@@ -3,6 +3,7 @@ import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import User from './user.js'
 import MetaTag from './meta_tag.js'
+import WebhookUrl from './webhook_url.js'
 
 export default class UserApp extends BaseModel {
   @column({ isPrimary: true })
@@ -22,6 +23,9 @@ export default class UserApp extends BaseModel {
 
   @hasMany(() => MetaTag)
   declare metaTags: HasMany<typeof MetaTag>
+
+  @hasMany(() => WebhookUrl)
+  declare webhookUrls: HasMany<typeof WebhookUrl>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

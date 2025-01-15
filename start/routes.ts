@@ -78,6 +78,13 @@ router
               })
               .prefix(':appId/secrets')
               .as('secrets')
+
+            router
+              .group(() => {
+                router.post('', [UserAppController, 'addWebhookUrl']).as('add')
+              })
+              .prefix(':appId/webhook-urls')
+              .as('webhook-url')
           })
           .prefix('user-apps')
           .as('user-apps')

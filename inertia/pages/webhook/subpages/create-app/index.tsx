@@ -23,11 +23,11 @@ export default function CreateAppPage(props: Props) {
 
   return (
     <div className="space-y-6 p-6">
-      <UserAppName appName={app.name} />
+      <UserAppName appName={app?.name} />
 
-      <GenerateNewKey appId={appId} secretKey={app.secret} />
+      <GenerateNewKey appId={appId} secretKey={app?.secret} />
 
-      <AddWebHookURL />
+      <AddWebHookURL appId={appId} webhookUrls={app.webhookUrls} />
 
       {/* Webhook Logs */}
       <Card>
