@@ -13,7 +13,7 @@ export default class UserApp extends BaseModel {
   declare name: string
 
   @column()
-  declare secret: string
+  declare secret: string | null
 
   @column()
   declare userId: string

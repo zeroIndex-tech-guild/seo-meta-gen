@@ -1,8 +1,10 @@
-import { MetaGenProps } from '#queue/metagen-queue'
+import UserApp from '#models/user_app'
+import { MetaForWebhook, MetaGenProps } from '#queue/metagen-queue'
 import MetaGen from '#services/meta-gen'
 import socket from '#services/socket'
 import { GENERATED_FOR } from '#sharedTypes/enums/index'
 import { inject } from '@adonisjs/core'
+import axios from 'axios'
 
 @inject()
 export class MetaGenProcessor {
@@ -29,6 +31,7 @@ export class MetaGenProcessor {
 
   async onJobCompleted(props: MetaGenProps) {
     const { for: generatedFor } = props
+    console.log('job completed:', props)
 
     if (generatedFor === GENERATED_FOR.UI) {
       this.triggerWebsocket(props)
@@ -48,11 +51,24 @@ export class MetaGenProcessor {
       error: null,
       message: 'Finished generating meta tags',
     })
-
-    console.log({ props })
   }
 
-  async triggerWebhook(props: MetaGenProps) {
-    console.log({ props })
+  async triggerWebhook(props: MetaForWebhook) {
+    console.log('trigger webook...')
+    const userApp = await UserApp.query()
+      .preload('webhookUrls')
+      .where('secret', props.webhook.secret)
+      .first()
+
+    const webHookUrls = userApp?.webhookUrls || []
+
+    for (const url of webHookUrls) {
+      try {
+        console.log({ url })
+        const response = await axios.post(url.url, props)
+      } catch (e) {
+        console.log({ e })
+      }
+    }
   }
 }

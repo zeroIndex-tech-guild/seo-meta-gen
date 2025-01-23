@@ -9,7 +9,7 @@ export default class extends BaseSchema {
 
       table.string('name').notNullable()
 
-      table.string('secret').defaultTo(null)
+      table.string('secret').defaultTo(null).nullable()
 
       table.string('user_id').unsigned().references('users.id').onDelete('CASCADE')
 

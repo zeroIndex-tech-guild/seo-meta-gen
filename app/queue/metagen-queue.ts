@@ -8,17 +8,16 @@ import { Meta } from '#sharedTypes/meta'
 
 export const META_QUEUE = 'meta-queue'
 
-type MetaForUI = {
+export type MetaForUI = {
   for: GENERATED_FOR.UI
   content: string
   meta?: Meta
 }
 
-type MetaForWebhook = {
+export type MetaForWebhook = {
   for: GENERATED_FOR.WEBHOOK
   content: string
   webhook: {
-    appId: string
     secret: string
   }
   meta?: Meta

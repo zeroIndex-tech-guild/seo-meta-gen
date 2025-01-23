@@ -43,9 +43,9 @@ export default class metaGenController {
     const { data, error } = await this.metagenQueue.addJob({
       content,
       webhook: {
-        trigger: true,
         secret,
       },
+      for: GENERATED_FOR.WEBHOOK,
     })
 
     if (error !== null) {

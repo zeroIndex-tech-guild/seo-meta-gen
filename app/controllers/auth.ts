@@ -9,16 +9,10 @@ export default class LoginController {
   constructor(protected authService: AuthService) {}
 
   async renderLoginPage({ inertia }: HttpContext) {
-    return inertia.render(
-      'auth/login/index',
-      {
-        data,
-      },
-      {
-        title: 'Metagen - Login',
-        description: 'Login to Metagen',
-      }
-    )
+    return inertia.render('auth/login/index', {
+      title: 'Metagen - Login',
+      description: 'Login to Metagen',
+    })
   }
 
   async renderSignupPage({ inertia }: HttpContext) {

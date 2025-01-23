@@ -14,6 +14,7 @@ export default class UserAppService {
         id: getID(),
         userId,
         name,
+        secret: null,
       })
 
       return {

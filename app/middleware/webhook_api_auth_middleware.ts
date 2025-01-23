@@ -1,4 +1,4 @@
-import WebhookSecrets from '#models/webhook-secret'
+import UserApp from '#models/user_app'
 import { createMetaGenValidatorForAPI } from '#validators/meta-gen'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
@@ -13,7 +13,7 @@ export default class WebhookApiAuthMiddleware {
       headers: { 'x-secret-key': secretKey },
     } = await ctx.request.validateUsing(createMetaGenValidatorForAPI)
 
-    const user = await WebhookSecrets.query().where('secret_key', secretKey).preload('user').first()
+    const user = await UserApp.query().where('secret', secretKey).preload('user').first()
 
     if (!user) {
       return ctx.response.unauthorized()
