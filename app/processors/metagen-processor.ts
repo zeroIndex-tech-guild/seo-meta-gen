@@ -64,7 +64,6 @@ export class MetaGenProcessor {
 
     for (const url of webHookUrls) {
       try {
-        console.log({ url })
         const response = await axios.post(url.url, props)
       } catch (e) {
         console.log({ e })
