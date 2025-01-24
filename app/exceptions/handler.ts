@@ -32,7 +32,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * The method is used for handling errors and returning
    * response to the client
    */
-  async handle(error: unknown, ctx: HttpContext) {
+  async handle(error: any, ctx: HttpContext) {
     super.handle(error, ctx)
 
     if (error instanceof authErrors.E_INVALID_CREDENTIALS) {
@@ -47,7 +47,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
     return ctx.response.status(error.status).json({
       statusCode: error.status,
       data: null,
-      message: ERROR_CODE[error.code],
+      message: ERROR_CODE[error.code as keyof typeof ERROR_CODE],
       error,
     })
   }

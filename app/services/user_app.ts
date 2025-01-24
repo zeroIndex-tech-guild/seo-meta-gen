@@ -29,7 +29,7 @@ export default class UserAppService {
     }
   }
 
-  async getUserApp({ userId, appId }: { userId: string; appId: string }) {
+  async getUserApp({ appId }: { userId: string; appId: string }) {
     try {
       console.log('getting userapp')
       const userApp = await UserApp.query().where('id', appId).preload('webhookUrls').firstOrFail()

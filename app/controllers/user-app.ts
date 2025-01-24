@@ -1,4 +1,4 @@
-import UserAppService from '#services/user-app'
+import UserAppService from '#services/user_app'
 import {
   addWebhookUrlValidator,
   createNewAppValidator,
@@ -15,7 +15,7 @@ export default class UserAppController {
   async renderAppsListPage({ inertia, auth }: HttpContext) {
     const user = auth.user!
 
-    const { data, error } = await this.userAppService.getUserApps({ userId: user.id })
+    const { data } = await this.userAppService.getUserApps({ userId: user.id })
 
     return inertia.render('webhook/index', {
       apps: data,

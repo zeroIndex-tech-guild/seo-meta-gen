@@ -1,7 +1,7 @@
 import { HttpContext } from '@adonisjs/core/http'
 
 export default class DashboardController {
-  renderDashboardPage({ inertia, auth }: HttpContext) {
+  renderDashboardPage({ inertia }: HttpContext) {
     return inertia.render(
       'dashboard/index/index',
       {},
